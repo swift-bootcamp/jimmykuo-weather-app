@@ -52,21 +52,18 @@ class ViewController: UIViewController, NSURLConnectionDataDelegate {
     func connectionDidFinishLoading(connection: NSURLConnection!) {
         println("download finished")
         var json: NSString = NSString(data: self.data, encoding: NSUTF8StringEncoding)
-        println(json)
+//        println(json)
         
-//        var e: NSError?
-//        var jsonObj = NSJSONSerialization.JSONObjectWithData(
-//            self.data,
-//            options: NSJSONReadingOptions(0),
-//            error: &e) as Array<AnyObject>
-//        
-//        for elem: AnyObject in jsonObj {
-//            var coord = elem["coord"]
-////            let age = elem["age"] as Int
-////            println("Name: \(name), Age: \(age)")
-////            let lon = coord["lon"]
-//            println("lon: \(coord)")
-//        }
+        var e: NSError?
+        var jsonObj = NSJSONSerialization.JSONObjectWithData(
+            self.data,
+            options: NSJSONReadingOptions.MutableContainers,
+            error: &e) as NSDictionary
+        
+        let temp: AnyObject? = jsonObj["main"]?["temp"]
+        let tempC = round(temp!.floatValue - 273.15)
+        
+        println("TempC: \(tempC)")
     }
 }
 

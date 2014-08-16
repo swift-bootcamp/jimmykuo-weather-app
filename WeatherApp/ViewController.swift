@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet var city: UILabel!
+    @IBOutlet var icon: UIImageView!
     
 //    override init(){
 //        self.city?.text = "Taipei"
@@ -19,7 +20,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.city?.text = "Taipei"
+        city?.text = "Taipei"
+        icon.image = UIImage(named: "rainy.jpg")
+        
     }
 
     override func didReceiveMemoryWarning() {

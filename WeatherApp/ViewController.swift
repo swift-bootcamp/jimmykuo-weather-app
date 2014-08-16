@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import Foundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, NSURLConnectionDataDelegate {
     
     @IBOutlet var city: UILabel!
     @IBOutlet var icon: UIImageView!
+    
+    var data: NSMutableData = NSMutableData()
     
 //    override init(){
 //        self.city?.text = "Taipei"
@@ -26,13 +29,44 @@ class ViewController: UIViewController {
         let background = UIImage(named: "rainy.jpg")
         self.view.backgroundColor = UIColor(patternImage: background)
         
+        var restAPI: String = "http://api.openweathermap.org/data/2.5/weather?q=Taipei"
+        var url: NSURL = NSURL(string: restAPI)
+        var request: NSURLRequest = NSURLRequest(URL: url)
+        var connection: NSURLConnection = NSURLConnection(
+            request: request, delegate: self, startImmediately: true)
+        
+        println("start downloading")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
+    func connection(connection: NSURLConnection!, didReceiveData dataReceived: NSData!) {
+        println("downloading")
+        self.data.appendData(dataReceived)
+    }
 
+    func connectionDidFinishLoading(connection: NSURLConnection!) {
+        println("download finished")
+        var json: NSString = NSString(data: self.data, encoding: NSUTF8StringEncoding)
+        println(json)
+        
+//        var e: NSError?
+//        var jsonObj = NSJSONSerialization.JSONObjectWithData(
+//            self.data,
+//            options: NSJSONReadingOptions(0),
+//            error: &e) as Array<AnyObject>
+//        
+//        for elem: AnyObject in jsonObj {
+//            var coord = elem["coord"]
+////            let age = elem["age"] as Int
+////            println("Name: \(name), Age: \(age)")
+////            let lon = coord["lon"]
+//            println("lon: \(coord)")
+//        }
+    }
 }
 

@@ -21,7 +21,10 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         city?.text = "Taipei"
-        icon.image = UIImage(named: "rainy.jpg")
+//      icon.image = UIImage(named: "rainy.jpg")
+        
+        let background = UIImage(named: "rainy.jpg")
+        self.view.backgroundColor = UIColor(patternImage: background)
         
     }
 

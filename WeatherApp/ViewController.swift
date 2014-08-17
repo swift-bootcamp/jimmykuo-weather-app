@@ -13,6 +13,7 @@ class ViewController: UIViewController, NSURLConnectionDataDelegate {
     
     @IBOutlet var city: UILabel!
     @IBOutlet var icon: UIImageView!
+    @IBOutlet var tempC: UILabel!
     
     var data: NSMutableData = NSMutableData()
     
@@ -26,9 +27,18 @@ class ViewController: UIViewController, NSURLConnectionDataDelegate {
         city?.text = "Taipei"
 //      icon.image = UIImage(named: "rainy.jpg")
         
-        let background = UIImage(named: "rainy.jpg")
-        self.view.backgroundColor = UIColor(patternImage: background)
+//        let background = UIImage(named: "rainy.jpg")
+//        self.view.backgroundColor = UIColor(patternImage: background)
         
+        let singleFingerTap = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
+        self.view.addGestureRecognizer(singleFingerTap)
+    }
+    
+    func handleSingleTap(recognizer: UITapGestureRecognizer){
+        startConnection()
+    }
+    
+    func startConnection(){
         var restAPI: String = "http://api.openweathermap.org/data/2.5/weather?q=Taipei"
         var url: NSURL = NSURL(string: restAPI)
         var request: NSURLRequest = NSURLRequest(URL: url)
@@ -36,6 +46,7 @@ class ViewController: UIViewController, NSURLConnectionDataDelegate {
             request: request, delegate: self, startImmediately: true)
         
         println("start downloading")
+        self.data.setData(nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,9 +72,11 @@ class ViewController: UIViewController, NSURLConnectionDataDelegate {
             error: &e) as NSDictionary
         
         let temp: AnyObject? = jsonObj["main"]?["temp"]
-        let tempC = round(temp!.floatValue - 273.15)
-        
-        println("TempC: \(tempC)")
+        // let tempCC = NSString(format: "%.f", round(temp!.floatValue - 273.15))
+        let tempCC = Double(round(temp!.floatValue - 273.15))
+        self.tempC.text = "\(tempCC)"
+        // println(tempCC)
+        println("TempC: \(tempCC)")
     }
 }
 
